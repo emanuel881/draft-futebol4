@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Football Draft - Emanuel x GC x Davi</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #10131a;
+    color: white;
+}
+
+header {
+    background: linear-gradient(135deg, #006b32, #00a94f);
+    text-align: center;
+    padding: 25px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.card {
+    background: #1b2029;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px #0005;
+}
+
+h2 {
+    color: #00e676;
+}
+
+button {
+    background: #00b956;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+}
+
+button:hover {
+    background: #00d566;
+}
+
+button:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+select,
+input {
+    padding: 10px;
+    border-radius: 7px;
+    border: none;
+    margin: 5px;
+}
+
+.jogadores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 10px;
+}
+
+.jogador {
+    background: #272e39;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.jogador strong {
+    color: #00e676;
+}
+
+.times {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.time {
+    background: #202631;
+    padding: 18px;
+    border-radius: 15px;
+}
+
+.time h3 {
+    color: #00e676;
+    font-size: 24px;
+}
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela th,
+.tabela td {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+    text-align: center;
+}
+
+.tabela th {
+    color: #00e676;
+}
+
+.tema {
+    font-size: 25px;
+    text-align: center;
+    background: #272e39;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.destaque {
+    color: #ffd740;
+    font-weight: bold;
+}
+
+.log {
+    background: #080a0e;
+    padding: 15px;
+    height: 220px;
+    overflow-y: auto;
+    border-radius: 10px;
+    font-family: monospace;
+}
+
+.posicao {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.posicao div {
+    background: #303743;
+    padding: 8px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.aviso {
+    background: #3b3215;
+    padding: 15px;
+    border-radius: 10px;
+    color: #ffe082;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>⚽ FOOTBALL DRAFT</h1>
+
+<p>Emanuel 🆚 GC 🆚 Davi</p>
+
+</header>
+
+<div class="container">
+
+<!-- TEMPORADA -->
+
+<div class="card">
+
+<h2>🏆 Temporada <span id="temporada">1</span></h2>
+
+<div class="tema">
+
+🎲 Tema da rodada:
+
+<h2 id="temaAtual">
+Clique em "Sortear tema"
+</h2>
+
+<button onclick="sortearTema()">
+🎲 Sortear tema
+</button>
+
+</div>
+
+<p id="vez"></p>
+
+</div>
+
+
+<!-- MONTAGEM DOS TIMES -->
+
+<div class="card">
+
+<h2>👥 Montagem dos times</h2>
+
+<p>
+Cada treinador precisa montar um time com 11 jogadores.
+A formação é <strong>4-3-3</strong>.
+</p>
+
+<div class="times">
+
+<div class="time">
+
+<h3>🟢 Emanuel</h3>
+
+<div id="timeEmanuel"></div>
+
+</div>
+
+
+<div class="time">
+
+<h3>🔵 GC</h3>
+
+<div id="timeGC"></div>
+
+</div>
+
+
+<div class="time">
+
+<h3>🔴 Davi</h3>
+
+<div id="timeDavi"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ESCOLHA -->
+
+<div class="card">
+
+<h2>➕ Adicionar jogador</h2>
+
+<select id="treinador">
+
+<option value="Emanuel">Emanuel</option>
+<option value="GC">GC</option>
+<option value="Davi">Davi</option>
+
+</select>
+
+<select id="jogadorSelect"></select>
+
+<button onclick="adicionarJogador()">
+Adicionar jogador
+</button>
+
+<p id="contador"></p>
+
+</div>
+
+
+<!-- FORMAÇÃO -->
+
+<div class="card">
+
+<h2>📐 Formação 4-3-3</h2>
+
+<div class="posicao">
+
+<div>🧤 GOL</div>
+<div>🛡️ ZAG</div>
+<div>🛡️ ZAG</div>
+<div>🛡️ LD/LE</div>
+
+<div>⚙️ MC</div>
+<div>⚙️ MC</div>
+<div>⚙️ MC</div>
+<div>⚡ PE</div>
+
+<div>🎯 CA</div>
+<div>⚡ PD</div>
+<div>⭐ ATA</div>
+
+</div>
+
+</div>
+
+
+<!-- SIMULAÇÃO -->
+
+<div class="card">
+
+<h2>🎮 Simulação</h2>
+
+<button onclick="simularTemporada()">
+🏆 Simular temporada
+</button>
+
+<button onclick="simularChampions()">
+🌟 Simular Champions
+</button>
+
+<button onclick="novaTemporada()">
+🔄 Nova temporada
+</button>
+
+</div>
+
+
+<!-- CLASSIFICAÇÃO -->
+
+<div class="card">
+
+<h2>📊 Classificação</h2>
+
+<table class="tabela">
+
+<thead>
+
+<tr>
+<th>#</th>
+<th>Time</th>
+<th>Pts</th>
+<th>V</th>
+<th>E</th>
+<th>D</th>
+<th>GM</th>
+<th>GS</th>
+<th>SG</th>
+</tr>
+
+</thead>
+
+<tbody id="classificacao"></tbody>
+
+</table>
+
+</div>
+
+
+<!-- ESTATÍSTICAS -->
+
+<div class="card">
+
+<h2>📈 Estatísticas</h2>
+
+<div id="estatisticas"></div>
+
+</div>
+
+
+<!-- LOG -->
+
+<div class="card">
+
+<h2>📰 Notícias da temporada</h2>
+
+<div class="log" id="log"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   BANCO DE JOGADORES
+========================= */
+const jogadores = [
+
+/* =========================
+   GOLEIROS
+========================= */
+
+["Alisson","GOL",33,88],
+["Ederson","GOL",33,87],
+["Bento","GOL",27,82],
+["Hugo Souza","GOL",27,80],
+["Weverton","GOL",38,84],
+["John","GOL",30,82],
+["Rossi","GOL",31,83],
+["Donnarumma","GOL",27,90],
+["Courtois","GOL",34,89],
+["Oblak","GOL",33,88],
+["Ter Stegen","GOL",34,87],
+["Emiliano Martínez","GOL",33,88],
+["Maignan","GOL",31,87],
+["Neuer","GOL",40,84],
+["Onana","GOL",30,82],
+["Diogo Costa","GOL",26,84],
+["Mamardashvili","GOL",25,84],
+["Unai Simón","GOL",29,84],
+["Raya","GOL",30,85],
+["Sommer","GOL",37,83],
+
+
+/* =========================
+   ZAGUEIROS
+========================= */
+
+["Marquinhos","ZAG",32,86],
+["Éder Militão","ZAG",28,86],
+["Gabriel Magalhães","ZAG",28,87],
+["Bremer","ZAG",29,86],
+["Murillo","ZAG",24,82],
+["Beraldo","ZAG",22,79],
+["Léo Ortiz","ZAG",30,84],
+["Fabrício Bruno","ZAG",30,82],
+["Lucas Beraldo","ZAG",22,79],
+
+["Van Dijk","ZAG",35,86],
+["Rúben Dias","ZAG",29,88],
+["William Saliba","ZAG",25,88],
+["Bastoni","ZAG",27,87],
+["Pau Torres","ZAG",29,84],
+["Araújo","ZAG",27,87],
+["Konaté","ZAG",27,86],
+["Gvardiol","ZAG",24,87],
+["De Ligt","ZAG",27,85],
+["Upamecano","ZAG",27,84],
+["Stones","ZAG",32,84],
+["Romero","ZAG",28,86],
+["Lisandro Martínez","ZAG",28,85],
+["Schlotterbeck","ZAG",26,84],
+["Hincapié","ZAG",24,83],
+["Antonio Silva","ZAG",22,82],
+["Piero Hincapié","ZAG",24,83],
+
+
+/* =========================
+   LATERAIS
+========================= */
+
+["Danilo","LAT",35,82],
+["Wesley","LAT",22,80],
+["Vanderson","LAT",25,81],
+["Yan Couto","LAT",24,80],
+["Guilherme Arana","LAT",29,82],
+["Caio Paulista","LAT",28,79],
+["Abner","LAT",30,80],
+
+["Achraf Hakimi","LAT",27,89],
+["Theo Hernández","LAT",28,88],
+["Nuno Mendes","LAT",24,87],
+["Alexander-Arnold","LAT",27,87],
+["Frimpong","LAT",25,86],
+["Reece James","LAT",26,84],
+["Kyle Walker","LAT",36,82],
+["João Cancelo","LAT",32,84],
+["Jeremie Frimpong","LAT",25,86],
+["Ben White","LAT",28,84],
+["Trippier","LAT",35,81],
+["Di Lorenzo","LAT",33,82],
+["Dimarco","LAT",28,87],
+["Hakimi","LAT",27,89],
+["Pedro Porro","LAT",27,84],
+["Grimaldo","LAT",30,86],
+
+
+/* =========================
+   VOLANTES / MEIAS
+========================= */
+
+["Casemiro","MC",34,82],
+["Bruno Guimarães","MC",28,86],
+["Douglas Luiz","MC",28,82],
+["André","MC",25,81],
+["João Gomes","MC",25,82],
+["Andreas Pereira","MC",30,82],
+["Lucas Paquetá","MC",28,84],
+["Gerson","MC",29,84],
+["Éderson","MC",27,82],
+
+["Rodri","MC",30,91],
+["Bellingham","MC",23,91],
+["Pedri","MC",23,89],
+["Valverde","MC",27,89],
+["De Bruyne","MC",35,86],
+["Musiala","MC",23,90],
+["Kroos","MC",36,85],
+["Modric","MC",41,84],
+["Toni Kroos","MC",36,85],
+["Camavinga","MC",23,85],
+["Tchouaméni","MC",26,85],
+["Enzo Fernández","MC",25,86],
+["Mac Allister","MC",27,86],
+["Declan Rice","MC",27,88],
+["Vitinha","MC",26,87],
+["Bernardo Silva","MC",32,87],
+["Frenkie de Jong","MC",29,87],
+["Wirtz","MC",23,89],
+["Florian Wirtz","MC",23,89],
+["Xavi Simons","MC",23,84],
+["Kimmich","MC",31,87],
+["Goretzka","MC",31,84],
+["Çalhanoğlu","MC",32,87],
+["Barella","MC",29,88],
+["Tonali","MC",26,84],
+["Milinković-Savić","MC",31,85],
+
+
+/* =========================
+   PONTAS ESQUERDOS
+========================= */
+
+["Vinícius Jr.","PE",26,91],
+["Rodrygo","PE",25,87],
+["Martinelli","PE",25,83],
+["Savinho","PE",22,82],
+["Pepê","PE",29,80],
+["Everton Cebolinha","PE",30,78],
+
+["Rafael Leão","PE",27,87],
+["Kvaratskhelia","PE",25,88],
+["Luis Díaz","PE",29,86],
+["Son","PE",34,87],
+["Nico Williams","PE",24,86],
+["Khvicha Kvaratskhelia","PE",25,88],
+["Jack Grealish","PE",31,82],
+["Marcus Rashford","PE",28,82],
+["Gabriel Martinelli","PE",25,83],
+["Adeyemi","PE",24,82],
+["Coman","PE",30,84],
+["Sané","PE",30,85],
+
+
+/* =========================
+   PONTAS DIREITOS
+========================= */
+
+["Raphinha","PD",29,89],
+["Antony","PD",26,78],
+["Estêvão","PD",19,83],
+["Luiz Henrique","PD",25,81],
+["Gabriel Pec","PD",25,79],
+
+["Mohamed Salah","PD",34,88],
+["Bukayo Saka","PD",25,90],
+["Lamine Yamal","PD",19,92],
+["Cole Palmer","PD",24,90],
+["Rodrygo","PD",25,87],
+["Bernardo Silva","PD",32,87],
+["Foden","PD",26,88],
+["Michael Olise","PD",24,86],
+["Dembélé","PD",29,88],
+["Mahrez","PD",35,83],
+["Di María","PD",38,82],
+["Nico González","PD",24,82],
+["Takefusa Kubo","PD",25,84],
+["Yeremy Pino","PD",23,82],
+
+
+/* =========================
+   CENTROAVANTES
+========================= */
+
+["Haaland","CA",26,94],
+["Mbappé","CA",27,93],
+["Harry Kane","CA",33,89],
+["Lautaro Martínez","CA",29,90],
+["Julián Álvarez","CA",26,89],
+["Gabriel Jesus","CA",29,80],
+["Richarlison","CA",29,80],
+["Endrick","CA",20,82],
+["Matheus Cunha","CA",27,82],
+["Igor Jesus","CA",25,79],
+
+["Osimhen","CA",27,88],
+["Vlahović","CA",26,86],
+["Alexander Isak","CA",26,89],
+["Gyökeres","CA",28,89],
+["Lewandowski","CA",38,86],
+["Benzema","CA",38,82],
+["Jonathan David","CA",26,85],
+["Darwin Núñez","CA",27,84],
+["Ollie Watkins","CA",30,84],
+["Victor Boniface","CA",25,83],
+["Sesko","CA",23,84],
+["Højlund","CA",23,81],
+["Retegui","CA",27,83],
+["Dovbyk","CA",29,82],
+["Gonçalo Ramos","CA",25,82],
+["Evanilson","CA",26,81],
+["Vitor Roque","CA",21,80],
+["Marcos Leonardo","CA",23,81],
+
+
+/* =========================
+   JOVENS PROMESSAS
+========================= */
+
+["Franco Mastantuono","PD",18,81],
+["Kenan Yıldız","PE",21,83],
+["Arda Güler","MC",21,84],
+["Jamal Musiala","MC",23,90],
+["Pau Cubarsí","ZAG",19,82],
+["Lamine Yamal","PD",19,92],
+["Warren Zaïre-Emery","MC",20,84],
+["João Neves","MC",21,85],
+["Alejandro Garnacho","PE",22,83],
+["Desire Doué","PE",21,82],
+["Désiré Doué","PE",21,82],
+["Geovany Quenda","PD",19,79],
+["Estevão","PD",19,83],
+["Endrick","CA",20,82],
+["Vitor Reis","ZAG",21,78],
+["Lucas Bergvall","MC",20,79],
+["Kobbie Mainoo","MC",21,81],
+["Leny Yoro","ZAG",20,81],
+["Rico Lewis","LAT",21,81],
+["Milos Kerkez","LAT",22,82]
+
+];
+
+
+/* =========================
+   TEMAS
+========================= */
+
+const temas = [
+
+"🇧🇷 Jogadores brasileiros",
+"🌎 Jogadores sul-americanos",
+"🇪🇺 Jogadores europeus",
+"⭐ Jogadores com 85+ de overall",
+"👶 Jogadores com até 25 anos",
+"👴 Jogadores com 30+ anos",
+"⚡ Jogadores rápidos",
+"🎯 Atacantes",
+"🛡️ Defensores",
+"⚙️ Meio-campistas",
+"🏆 Jogadores campeões de Champions",
+"🌟 Jogadores considerados estrelas",
+"🧤 Goleiros",
+"🔥 Jogadores em grande fase",
+"🎲 Qualquer jogador"
+];
+
+let temaAtual = "";
+
+let temporada = 1;
+
+let ordem = ["Emanuel","GC","Davi"];
+
+let vez = 0;
+
+let times = {
+
+Emanuel: [],
+GC: [],
+Davi: []
+
+};
+
+let estatisticas = {
+
+Emanuel: criarStats(),
+GC: criarStats(),
+Davi: criarStats()
+
+};
+
+
+/* =========================
+   ESTATÍSTICAS
+========================= */
+
+function criarStats() {
+
+return {
+
+pontos:0,
+vitorias:0,
+empates:0,
+derrotas:0,
+gm:0,
+gs:0,
+champions:false,
+titulos:0
+
+};
+
+}
+
+
+/* =========================
+   DROPDOWN
+========================= */
+
+function carregarJogadores() {
+
+let select =
+document.getElementById("jogadorSelect");
+
+select.innerHTML = "";
+
+jogadores.forEach((j,index)=>{
+
+let option =
+document.createElement("option");
+
+option.value = index;
+
+option.textContent =
+`${j[0]} - ${j[1]} - ${j[2]} anos - ${j[3]} OVR`;
+
+select.appendChild(option);
+
+});
+
+}
+
+carregarJogadores();
+
+
+/* =========================
+   TEMA
+========================= */
+
+function sortearTema() {
+
+let indice =
+Math.floor(Math.random()*temas.length);
+
+temaAtual =
+temas[indice];
+
+document.getElementById("temaAtual")
+.innerText = temaAtual;
+
+vez++;
+
+if(vez >= ordem.length) {
+
+vez = 0;
+
+}
+
+document.getElementById("vez")
+.innerHTML =
+`🎯 Agora é a vez de <strong>${ordem[vez]}</strong> escolher.`;
+
+}
+
+
+/* =========================
+   ADICIONAR JOGADOR
+========================= */
+
+function adicionarJogador() {
+
+let treinador =
+document.getElementById("treinador").value;
+
+let indice =
+document.getElementById("jogadorSelect").value;
+
+let jogador =
+jogadores[indice];
+
+if(times[treinador].length >= 11) {
+
+alert("Esse time já tem 11 jogadores!");
+
+return;
+
+}
+
+if(
+times.Emanuel.includes(jogador) ||
+times.GC.includes(jogador) ||
+times.Davi.includes(jogador)
+) {
+
+alert("Esse jogador já está em outro time!");
+
+return;
+
+}
+
+times[treinador].push(jogador);
+
+mostrarTimes();
+
+}
+
+
+/* =========================
+   MOSTRAR TIMES
+========================= */
+
+function mostrarTimes() {
+
+for(let nome of ["Emanuel","GC","Davi"]) {
+
+let div =
+document.getElementById(
+"time"+nome
+);
+
+div.innerHTML = "";
+
+times[nome].forEach((j,index)=>{
+
+let jogador =
+document.createElement("div");
+
+jogador.className =
+"jogador";
+
+jogador.innerHTML =
+
+`${index+1}. <strong>${j[0]}</strong><br>
+${j[1]} | ${j[2]} anos | ⭐ ${j[3]}`;
+
+div.appendChild(jogador);
+
+});
+
+}
+
+document.getElementById("contador")
+.innerText =
+
+`Emanuel: ${times.Emanuel.length}/11
+ | GC: ${times.GC.length}/11
+ | Davi: ${times.Davi.length}/11`;
+
+}
+
+
+/* =========================
+   FORÇA DO TIME
+========================= */
+
+function forcaTime(nome) {
+
+let time = times[nome];
+
+if(time.length === 0)
+return 60;
+
+let soma = 0;
+
+time.forEach(j=>{
+
+soma += j[3];
+
+});
+
+return soma/time.length;
+
+}
+
+
+/* =========================
+   SIMULAR TEMPORADA
+========================= */
+
+function simularTemporada() {
+
+if(
+times.Emanuel.length < 11 ||
+times.GC.length < 11 ||
+times.Davi.length < 11
+) {
+
+alert("Os 3 times precisam ter 11 jogadores!");
+
+return;
+
+}
+
+limparStats();
+
+let nomes =
+["Emanuel","GC","Davi"];
+
+for(let i=0;i<3;i++){
+
+for(let j=i+1;j<3;j++){
+
+jogarPartida(
+nomes[i],
+nomes[j]
+);
+
+}
+
+}
+
+/* jogos extras para representar uma liga */
+
+for(let rodada=0;rodada<8;rodada++){
+
+let a =
+nomes[Math.floor(Math.random()*3)];
+
+let b =
+nomes[Math.floor(Math.random()*3)];
+
+if(a !== b){
+
+jogarPartida(a,b);
+
+}
+
+}
+
+mostrarClassificacao();
+
+mostrarEstatisticas();
+
+noticia(
+`🏆 A temporada ${temporada} terminou!`
+);
+
+verificarChampions();
+
+}
+
+
+/* =========================
+   PARTIDA
+========================= */
+
+function jogarPartida(a,b) {
+
+let forcaA =
+forcaTime(a);
+
+let forcaB =
+forcaTime(b);
+
+let golsA =
+Math.max(
+0,
+Math.round(
+Math.random()*3 +
+(forcaA-forcaB)/25
+)
+);
+
+let golsB =
+Math.max(
+0,
+Math.round(
+Math.random()*3 +
+(forcaB-forcaA)/25
+)
+);
+
+golsA =
+Math.min(golsA,6);
+
+golsB =
+Math.min(golsB,6);
+
+estatisticas[a].gm += golsA;
+estatisticas[a].gs += golsB;
+
+estatisticas[b].gm += golsB;
+estatisticas[b].gs += golsA;
+
+
+if(golsA > golsB){
+
+estatisticas[a].vitorias++;
+estatisticas[b].derrotas++;
+
+estatisticas[a].pontos += 3;
+
+}
+
+else if(golsB > golsA){
+
+estatisticas[b].vitorias++;
+estatisticas[a].derrotas++;
+
+estatisticas[b].pontos += 3;
+
+}
+
+else {
+
+estatisticas[a].empates++;
+estatisticas[b].empates++;
+
+estatisticas[a].pontos++;
+estatisticas[b].pontos++;
+
+}
+
+noticia(
+`⚽ ${a} ${golsA} x ${golsB} ${b}`
+);
+
+}
+
+
+/* =========================
+   CLASSIFICAÇÃO
+========================= */
+
+function mostrarClassificacao() {
+
+let nomes =
+["Emanuel","GC","Davi"];
+
+nomes.sort((a,b)=>{
+
+return estatisticas[b].pontos -
+estatisticas[a].pontos;
+
+});
+
+let tabela =
+document.getElementById("classificacao");
+
+tabela.innerHTML = "";
+
+nomes.forEach((nome,index)=>{
+
+let s =
+estatisticas[nome];
+
+let sg =
+s.gm-s.gs;
+
+let tr =
+document.createElement("tr");
+
+tr.innerHTML = `
+
+<td>${index+1}</td>
+<td>${nome}</td>
+<td>${s.pontos}</td>
+<td>${s.vitorias}</td>
+<td>${s.empates}</td>
+<td>${s.derrotas}</td>
+<td>${s.gm}</td>
+<td>${s.gs}</td>
+<td>${sg}</td>
+
+`;
+
+tabela.appendChild(tr);
+
+});
+
+}
+
+
+/* =========================
+   ESTATÍSTICAS
+========================= */
+
+function mostrarEstatisticas() {
+
+let div =
+document.getElementById("estatisticas");
+
+div.innerHTML = "";
+
+for(let nome of ["Emanuel","GC","Davi"]) {
+
+let s =
+estatisticas[nome];
+
+let media =
+forcaTime(nome).toFixed(1);
+
+div.innerHTML += `
+
+<div class="jogador">
+
+<h3>${nome}</h3>
+
+<p>⭐ Força média: ${media}</p>
+
+<p>🏆 Pontos: ${s.pontos}</p>
+
+<p>✅ Vitórias: ${s.vitorias}</p>
+
+<p>🤝 Empates: ${s.empates}</p>
+
+<p>❌ Derrotas: ${s.derrotas}</p>
+
+<p>⚽ Gols marcados: ${s.gm}</p>
+
+<p>🥅 Gols sofridos: ${s.gs}</p>
+
+<p>🏆 Títulos: ${s.titulos}</p>
+
+<p>🌟 Champions: ${
+s.champions ? "Classificado" : "Não classificado"
+}</p>
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   CHAMPIONS
+========================= */
+
+function verificarChampions() {
+
+let nomes =
+["Emanuel","GC","Davi"];
+
+nomes.sort((a,b)=>
+estatisticas[b].pontos -
+estatisticas[a].pontos
+);
+
+estatisticas[nomes[0]].champions = true;
+
+noticia(
+`🌟 ${nomes[0]} terminou em 1º e está classificado para a Champions!`
+);
+
+}
+
+
+/* =========================
+   CHAMPIONS
+========================= */
+
+function simularChampions() {
+
+let classificados =
+["Emanuel","GC","Davi"]
+.filter(nome =>
+estatisticas[nome].champions
+);
+
+if(classificados.length === 0){
+
+alert(
+"Nenhum time está classificado para a Champions ainda."
+);
+
+return;
+
+}
+
+classificados.forEach(nome=>{
+
+let forca =
+forcaTime(nome);
+
+let chance =
+forca + Math.random()*20;
+
+if(chance > 105){
+
+estatisticas[nome].titulos++;
+
+noticia(
+`🏆🔥 ${nome} FOI CAMPEÃO DA CHAMPIONS!`
+);
+
+}
+
+else if(chance > 92){
+
+noticia(
+`🥈 ${nome} chegou à final da Champions, mas perdeu.`
+);
+
+}
+
+else {
+
+noticia(
+`🌟 ${nome} avançou na Champions, mas foi eliminado.`
+);
+
+}
+
+});
+
+mostrarEstatisticas();
+
+}
+
+
+/* =========================
+   NOVA TEMPORADA
+========================= */
+
+function novaTemporada() {
+
+temporada++;
+
+for(let nome of ["Emanuel","GC","Davi"]) {
+
+times[nome].forEach(jogador=>{
+
+/* envelhecimento */
+
+jogador[2]++;
+
+/* queda/aumento natural do overall */
+
+if(jogador[2] >= 34){
+
+jogador[3] -= 1;
+
+}
+
+else if(jogador[2] <= 25){
+
+jogador[3] += 1;
+
+}
+
+});
+
+}
+
+limparStats();
+
+noticia(
+`🔄 Começou a temporada ${temporada}!`
+);
+
+noticia(
+`👴 Todos os jogadores envelheceram 1 ano.`
+);
+
+mostrarTimes();
+
+document.getElementById("temporada")
+.innerText = temporada;
+
+}
+
+
+/* =========================
+   LIMPAR ESTATÍSTICAS
+========================= */
+
+function limparStats() {
+
+for(let nome of ["Emanuel","GC","Davi"]) {
+
+estatisticas[nome] =
+criarStats();
+
+}
+
+document.getElementById("classificacao")
+.innerHTML = "";
+
+document.getElementById("estatisticas")
+.innerHTML = "";
+
+}
+
+
+/* =========================
+   NOTÍCIAS
+========================= */
+
+function noticia(texto) {
+
+let log =
+document.getElementById("log");
+
+let hora =
+new Date().toLocaleTimeString();
+
+log.innerHTML =
+`<p>[${hora}] ${texto}</p>`
++
+log.innerHTML;
+
+}
+
+mostrarTimes();
+
+</script>
+
+</body>
+</html>
